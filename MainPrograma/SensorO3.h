@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------------------
 // Includes
 //--------------------------------------------------------------------------------------------------------------
-#include <cstdlib>
+
 
 //--------------------------------------------------------------------------------------------------------------
 // SensorO3
@@ -21,9 +21,36 @@ class SensorO3 {
   private:
     int elPinRX;
     int elPinTX;
-    int medida;
+    int medidaO3 = -1;
+    int humedad = -1;
+    int temperatura = -1;
   //--------------------------------------------------------------------------------------------------------------
 
+  void cacharroDimeloTodo(){
+    //Solicito los datos del sensor
+    Serial1.print('\r');
+
+    //Recibo en una secuencia ASCII los datos 
+    String data = Serial1.readStringUntil('\r');
+    Serial.print("Trama del sensor: ");Serial.println(data);
+
+    //Nos interesa el segundo (ppb), tercer (temperatura) y cuarto (humedad) elementos del string
+    int index0 = data.indexOf(',');
+    int index1 = data.indexOf(',', index0 +1);
+    int index2 = data.indexOf(',', index1 +1);
+    int index3 = data.indexOf(',', index2 +1);
+
+
+    //Obtengo los substrings que interesan
+    String o3 = data.substring(index0+1,index1);
+    String temp = data.substring(index1+1,index2);
+    String hum = data.substring(index2+1, index3);
+
+    //Guardo los datos en las variables de clase
+    medidaO3 = o3.toInt();
+    temperatura = temp.toInt();
+    humedad = hum.toInt();
+    }
   //--------------------------------------------------------------------------------------------------------------
   // Parte Publica
   //--------------------------------------------------------------------------------------------------------------
@@ -48,15 +75,36 @@ class SensorO3 {
 
     //--------------------------------------------------------------------------------------------------------------
     //
-    // [void] --> [medirO3()] --> [int]  No deuelvo una medida real, me invento una
+    // void --> medirO3() --> int
     //
     //--------------------------------------------------------------------------------------------------------------
-    uint16_t medirO3() {
-
-      //return 999;
-      return rand() % 1000 + 1; //Numero aleatorio entre 1 y 1000
+    int medirO3() {
+      cacharroDimeloTodo();
+      return medidaO3;
 
     } //medir O3
+    //--------------------------------------------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------------------------------------------
+    //
+    // void --> medirTemperatura() --> int
+    //
+    //--------------------------------------------------------------------------------------------------------------
+    int medirTemperatura() {
+      return temperatura;
+
+    } //medirTemperatura()
+    //--------------------------------------------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------------------------------------------
+    //
+    // void --> medirHumedad() --> int
+    //
+    //--------------------------------------------------------------------------------------------------------------
+    int medirHumedad() {
+      return humedad;
+
+    } //medirHumedad
     //--------------------------------------------------------------------------------------------------------------
 
 }; //Clase

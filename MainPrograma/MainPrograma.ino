@@ -15,14 +15,16 @@
 // Se crea un objeto SensorO3
 SensorO3 miSensor(15, 17);
 // Se crea una emisoraBle
-EmisoraBTLE miEmisora(String("LaEmisoraDelCarlos"));
+EmisoraBTLE miEmisora();
 
 //--------------------------------------------------------------------------------------------------------------
 void setup() {
 
   Serial.begin(9600);
-  while (!Serial) {};
-  miEmisora.startAdvertising();
+  while(!Serial){};
+  Serial1.begin(9600);
+  while (!Serial1) {};
+  //miEmisora.startAdvertising();
 
 } // setup()
 //--------------------------------------------------------------------------------------------------------------
@@ -45,10 +47,16 @@ void loop() {
 //--------------------------------------------------------------------------------------------------------------
 void medirYPublicar() {
 
-  uint16_t dato = miSensor.medirO3(); //El dato no es real, es decidido entre el 1 y el 1000 aleatoriamente
-  Serial.print("Estoy enviando el numero: ");
-  Serial.println(dato);
-  miEmisora.anunciarO3(dato);
+  int medidaO3 = miSensor.medirO3();
+  int temperatura = miSensor.medirTemperatura();
+  int humedad = miSensor.medirHumedad();
+
+  //Muestra por monitor Serie
+  Serial.print("Medida 03: "); Serial.println(medidaO3);
+  Serial.print("Medida Temperatura: "); Serial.println(temperatura);
+  Serial.print("Medida Humedad: "); Serial.println(humedad);
+  
+  //miEmisora.anunciarO3(dato);
   
 } // medirYPublicar()
 
