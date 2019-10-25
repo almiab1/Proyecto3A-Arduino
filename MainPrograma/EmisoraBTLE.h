@@ -37,9 +37,10 @@ class EmisoraBTLE {
     // [int] --> anunciarO3 --> [void]
     //
     //--------------------------------------------------------------------------------------------------------------
-    void anunciarO3(uint16_t datoMajor) {
-
-      BLEBeacon nuevoBeacon(beaconUUID, datoMajor, 0, 73); //El valor del minor no es relevante, pongo un 73 por ejemplo
+    void anunciarO3(int medidaO3, int temperatura, int humedad) {
+      uint16_t datoMinor = (uint16_t) (temperatura*100)+humedad; //P.e: Temp = 25  Hum = 45  (25*100)+45 = 2545;
+      uint16_t datoMajor = (uint16_t) medidaO3;
+      BLEBeacon nuevoBeacon(beaconUUID, datoMajor, datoMinor, 73);
       nuevoBeacon.setManufacturer(0x004c); //  <- Apple id
       Bluefruit.Advertising.setBeacon( nuevoBeacon );
 
