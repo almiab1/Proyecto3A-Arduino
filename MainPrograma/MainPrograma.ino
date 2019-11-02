@@ -1,3 +1,4 @@
+
 //--------------------------------------------------------------------------------------------------------------
 // MainPrograma.ino
 // Programa que controla el sparkfunk
@@ -12,10 +13,16 @@
 
 #include "EmisoraBTLE.h";
 
+ #include <ArduinoLowPower.h>
+
+// #include <LowPower.h>
+
 // Se crea un objeto SensorO3
 SensorO3 miSensor(15, 17);
 // Se crea una emisoraBle
 EmisoraBTLE miEmisora;
+// contador del tiempo que lleva el nRF
+int contadorTiempo = 0;
 
 //--------------------------------------------------------------------------------------------------------------
 void setup() {
@@ -31,7 +38,10 @@ void setup() {
 void loop() {
 
   medirYPublicar();
-  delay(5000);
+  LowPower.sleep(5000);
+ 
+ // Enter power down state for 8 s with ADC and BOD module disabled
+ //  LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
 
 } // loop()
 //--------------------------------------------------------------------------------------------------------------
@@ -50,6 +60,12 @@ void medirYPublicar() {
   
   miEmisora.anunciarO3(medidaO3,temperatura, humedad);
   
+  
 } // medirYPublicar()
+
+void dummy() {
+  // Función llamada cuando despierta el nRF
+  contadorTiempo += 5;
+}
 
 //--------------------------------------------------------------------------------------------------------------
