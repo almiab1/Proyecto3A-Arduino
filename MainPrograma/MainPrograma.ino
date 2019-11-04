@@ -13,7 +13,7 @@
 
 #include "EmisoraBTLE.h";
 
- #include <ArduinoLowPower.h>
+// #include <ArduinoLowPower.h>
 
 // #include <LowPower.h>
 
@@ -38,7 +38,7 @@ void setup() {
 void loop() {
 
   medirYPublicar();
-  LowPower.sleep(5000);
+ //  LowPower.sleep(5000);
  
  // Enter power down state for 8 s with ADC and BOD module disabled
  //  LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
@@ -63,9 +63,9 @@ void medirYPublicar() {
   
 } // medirYPublicar()
 
-void dummy() {
+//void dummy() {
   // Función llamada cuando despierta el nRF
-  contadorTiempo += 5;
-}
+  //contadorTiempo += 5;
+//}
 
 //--------------------------------------------------------------------------------------------------------------
