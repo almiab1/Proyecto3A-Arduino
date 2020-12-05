@@ -32,7 +32,6 @@ class SensorO3 {
 
     //Recibo en una secuencia ASCII los datos 
     String data = Serial1.readStringUntil('\r');
-    Serial.print("Trama del sensor: ");Serial.println(data);
 
     //Nos interesa el segundo (ppb), tercer (temperatura) y cuarto (humedad) elementos del string
     int index0 = data.indexOf(',');
